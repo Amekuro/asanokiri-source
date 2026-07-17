@@ -1,0 +1,17 @@
+# 全局站点信息。可在 /admin 用 Sveltia 编辑，或直接改本文件。
+# 留空（""）的字段不会在页面上渲染，填上即出现。
+name: 朝之雾动漫社
+name_ja: あさのきり # 装饰用日文读法，不需要时删除本行即可
+tagline: "" # 待补：一句话标语
+description: "" # 待补：社团简介
+departments: # blurb 为各部门一句话介绍，由各部门确定后补充
+  - name: 主席团
+  - name: COS部
+  - name: 动漫部落
+  - name: 宣传部
+  - name: 宅务部
+  - name: 映像研究部
+join_url: "" # 待补：飞书 Bitable 报名表单链接
+qq_group: "" # 待补：QQ 群号
+wechat: "" # 待补：微信公众号名称
+bilibili: "" # 待补：B 站官方账号空间链接

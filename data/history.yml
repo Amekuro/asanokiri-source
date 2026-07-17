@@ -1,0 +1,7 @@
+# 社团沿革 timeline。items 为空时首页不渲染沿革区块。
+# 条目格式：
+#   - year: 2015
+#     title: 社团成立
+#     text: 一句话说明（可选）
+#     image: /uploads/xxx.webp（可选）
+items: []
