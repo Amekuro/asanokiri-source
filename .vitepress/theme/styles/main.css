@@ -1,0 +1,62 @@
+/*
+ * 设计 token 唯一定义处。取色来源：B 站官号头像（现行视觉锚点）。
+ *   mist —— 晨雾蓝灰（卫衣/暗部），中性色阶，承担背景与正文
+ *   dawn —— 拂晓粉（发色），主强调色，用于 CTA 与点缀
+ *   glow —— 描边钴蓝（头像轮廓光），链接与焦点色
+ * 签名元素：dawn→glow 渐变细线，呼应头像的红蓝色散描边。
+ * source() 显式指定扫描根：v4 自动探测会跳过 .vitepress 目录。
+ */
+@import "tailwindcss" source("../../..");
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-mist-50: #f6f8fa;
+  --color-mist-100: #ecf0f4;
+  --color-mist-200: #dbe2ea;
+  --color-mist-300: #bec9d6;
+  --color-mist-400: #96a4b6;
+  --color-mist-500: #718195;
+  --color-mist-600: #586678;
+  --color-mist-700: #45505f;
+  --color-mist-800: #353e4b;
+  --color-mist-900: #272e39;
+
+  --color-dawn-50: #fdf5f5;
+  --color-dawn-100: #fbe9ea;
+  --color-dawn-200: #f7d4d7;
+  --color-dawn-300: #f1b8bd;
+  --color-dawn-400: #e795a0;
+  --color-dawn-500: #d97584;
+  --color-dawn-600: #c05a6d;
+  --color-dawn-700: #9e4457;
+
+  --color-glow-500: #3d5af1;
+  --color-glow-600: #2c44d8;
+  --color-glow-700: #2336ac;
+
+  --font-sans: system-ui, "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+}
+
+/* 文章正文排版一律交给 prose，此处只对齐品牌色 */
+.prose {
+  --tw-prose-body: var(--color-mist-700);
+  --tw-prose-headings: var(--color-mist-900);
+  --tw-prose-lead: var(--color-mist-600);
+  --tw-prose-links: var(--color-glow-600);
+  --tw-prose-bold: var(--color-mist-900);
+  --tw-prose-counters: var(--color-dawn-500);
+  --tw-prose-bullets: var(--color-dawn-400);
+  --tw-prose-hr: var(--color-mist-200);
+  --tw-prose-quotes: var(--color-mist-600);
+  --tw-prose-quote-borders: var(--color-dawn-300);
+  --tw-prose-captions: var(--color-mist-500);
+  --tw-prose-code: var(--color-mist-800);
+  --tw-prose-th-borders: var(--color-mist-300);
+  --tw-prose-td-borders: var(--color-mist-200);
+}
+
+/* 去掉 typography 默认给行内代码加的反引号伪元素 */
+.prose code::before,
+.prose code::after {
+  content: none;
+}

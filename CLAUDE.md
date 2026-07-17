@@ -24,7 +24,7 @@
 - Node LTS，pin 于 `.nvmrc` 与 `package.json#engines`
 - 原型部署：GitHub Pages 项目页，Pages 源设为 GitHub Actions，官方 `actions/deploy-pages` workflow
 
-## 目录结构（目标）
+## 目录结构
 
 ```
 .github/workflows/deploy.yml   # build + 官方 Pages 部署
@@ -33,27 +33,32 @@
   theme/
     index.ts
     Layout.vue         # 按 frontmatter.layout 分发三种模板
-    styles/main.css    # Tailwind 入口 CSS
-    components/        # Timeline.vue、PostCard.vue 等
+    layouts/           # HomeLayout / PostListLayout / PostLayout
+    styles/main.css    # Tailwind 入口 CSS；设计 token 唯一定义处（取色自 B 站官号头像）
+    components/        # Timeline.vue、PostCard.vue、SiteHeader.vue、SiteFooter.vue
     posts.data.ts      # createContentLoader 聚合 posts/
+    site.data.ts       # 读 data/site.yml（js-yaml）
+    history.data.ts    # 读 data/history.yml（js-yaml）
 data/
   site.yml             # 全局信息（唯一必需的数据文件）
-  history.yml          # 沿革 timeline（可选，存在即渲染）
+  history.yml          # 沿革 timeline（items 为空则首页不渲染该区块）
 posts/
   YYYY-MM-DD-<slug>.md
 public/
-  admin/               # Sveltia：index.html + config.yml
+  admin/               # Sveltia：index.html（CDN 引入，版本 pin 死）+ config.yml
   uploads/             # Sveltia 媒体目录（WebP）
-index.md               # 首页
+  favicon.svg
+index.md               # 首页（纯数据驱动，正文为空）
+posts.md               # 文章列表页；放根目录以保持 posts/ 只含文章（Sveltia folder collection 不能排除单个文件）
 ```
 
 ## 内容模型
 
 posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（选）、`featured`（选，未来精选页的过滤钩子，当前无消费方）。
 
-`data/site.yml`：社团名、tagline、简介（含各部门一句话）、`join_url`（Bitable 表单）、QQ 群、公众号名、B 站空间链接。
+`data/site.yml`：`name`、`name_ja`（装饰用日文读法，可删）、`tagline`、`description`、`departments: [{ name, blurb? }]`（各部门一句话）、`join_url`（Bitable 表单）、`qq_group`、`wechat`、`bilibili`。留空的字段不渲染。
 
-`data/history.yml`：`[{ year, title, text, image? }]`。
+`data/history.yml`：`items: [{ year, title, text?, image? }]`（顶层包 `items` 键，适配 CMS file collection 编辑；根级列表 CMS 无法编辑）。
 
 已裁决不建：`departments.yml`、独立作品集合。
 
@@ -93,7 +98,7 @@ npm run dev / build / preview   # 对应 vitepress dev / build / preview
 
 ## 路线图
 
-- [ ] 骨架：VitePress + Tailwind + Sveltia config + Actions workflow，本地跑通
+- [x] 骨架：VitePress + Tailwind + Sveltia config + Actions workflow，本地跑通
 - [ ] 部署到个人 Pages 项目路径，线上跑通
 - [ ] 三个模板的设计与实现（原型核心）
 - [ ] Sveltia 编辑流程实测（PAT 登录）

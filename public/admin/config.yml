@@ -1,0 +1,61 @@
+# Sveltia CMS 配置。字段定义与 CLAUDE.md 内容模型保持同步。
+backend:
+  name: github
+  repo: amekuro/asanokiri
+  branch: main
+
+site_url: https://amekuro.github.io/asanokiri/
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: 活动文章
+    label_singular: 文章
+    folder: posts
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { name: title, label: 标题, widget: string }
+      - { name: date, label: 日期, widget: datetime, format: YYYY-MM-DD, time_format: false }
+      - { name: cover, label: 封面图, widget: image, required: false }
+      - { name: featured, label: 精选, widget: boolean, required: false, default: false }
+      - { name: body, label: 正文, widget: markdown }
+
+  - name: data
+    label: 站点数据
+    files:
+      - name: site
+        label: 全局信息
+        file: data/site.yml
+        fields:
+          - { name: name, label: 社团名称, widget: string }
+          - { name: name_ja, label: 日文读法（装饰用）, widget: string, required: false }
+          - { name: tagline, label: 一句话标语, widget: string, required: false }
+          - { name: description, label: 社团简介, widget: text, required: false }
+          - name: departments
+            label: 部门
+            widget: list
+            required: false
+            fields:
+              - { name: name, label: 名称, widget: string }
+              - { name: blurb, label: 一句话介绍, widget: string, required: false }
+          - { name: join_url, label: 报名表单链接, widget: string, required: false }
+          - { name: qq_group, label: QQ 群号, widget: string, required: false }
+          - { name: wechat, label: 公众号名称, widget: string, required: false }
+          - { name: bilibili, label: B 站空间链接, widget: string, required: false }
+      - name: history
+        label: 社团沿革
+        file: data/history.yml
+        fields:
+          - name: items
+            label: 沿革条目
+            widget: list
+            required: false
+            fields:
+              - { name: year, label: 年份, widget: string }
+              - { name: title, label: 标题, widget: string }
+              - { name: text, label: 说明, widget: text, required: false }
+              - { name: image, label: 配图, widget: image, required: false }
