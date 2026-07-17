@@ -10,9 +10,17 @@ const { frontmatter } = useData()
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col bg-mist-50 font-sans text-mist-800 antialiased">
+  <div
+    class="flex min-h-screen flex-col bg-mist-50 font-sans text-mist-800 antialiased dark:bg-mist-950 dark:text-mist-200"
+  >
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-glow-700 focus:px-4 focus:py-2 focus:font-medium focus:text-white"
+    >
+      跳到主要内容
+    </a>
     <SiteHeader />
-    <main class="flex-1">
+    <main id="main" class="flex-1">
       <HomeLayout v-if="frontmatter.layout === 'home'" />
       <PostListLayout v-else-if="frontmatter.layout === 'posts'" />
       <PostLayout v-else />

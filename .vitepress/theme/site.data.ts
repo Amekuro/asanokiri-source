@@ -5,7 +5,8 @@ import { defineLoader } from 'vitepress'
 
 export interface Department {
   name: string
-  blurb?: string
+  text?: string
+  image?: string
 }
 
 export interface SiteInfo {

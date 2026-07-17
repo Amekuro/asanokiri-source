@@ -6,20 +6,27 @@ defineProps<{ items: HistoryItem[] }>()
 </script>
 
 <template>
-  <ol class="relative space-y-8 border-l-2 border-mist-200 pl-6">
+  <ol class="relative space-y-10 border-l-2 border-mist-200 pl-8 dark:border-mist-800">
     <li v-for="item in items" :key="`${item.year}-${item.title}`" class="relative">
       <span
-        class="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full bg-gradient-to-br from-dawn-400 to-glow-500"
+        aria-hidden="true"
+        class="absolute -left-[41px] top-1 h-3.5 w-3.5 rounded-full bg-gradient-to-br from-dawn-400 to-glow-500 ring-4 ring-mist-50 dark:ring-mist-950"
       ></span>
-      <div class="text-sm font-semibold tracking-wide text-dawn-600">{{ item.year }}</div>
-      <h3 class="mt-0.5 font-bold text-mist-900">{{ item.title }}</h3>
-      <p v-if="item.text" class="mt-1 text-sm leading-relaxed text-mist-600">{{ item.text }}</p>
+      <span
+        class="inline-flex rounded-full bg-dawn-100 px-2.5 py-0.5 text-sm font-semibold tracking-wide text-dawn-800 dark:bg-mist-800 dark:text-dawn-300"
+      >
+        {{ item.year }}
+      </span>
+      <h3 class="mt-2 font-bold text-mist-900 dark:text-mist-100">{{ item.title }}</h3>
+      <p v-if="item.text" class="mt-1.5 max-w-xl text-sm leading-relaxed text-mist-600 dark:text-mist-300">
+        {{ item.text }}
+      </p>
       <img
         v-if="item.image"
         :src="withBase(item.image)"
         :alt="item.title"
-        class="mt-3 max-w-sm rounded-lg border border-mist-200"
         loading="lazy"
+        class="mt-4 w-full max-w-sm rounded-xl border border-mist-200 dark:border-mist-800"
       />
     </li>
   </ol>

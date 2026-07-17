@@ -1,7 +1,17 @@
 # 社团沿革 timeline。items 为空时首页不渲染沿革区块。
-# 条目格式：
-#   - year: 2015
-#     title: 社团成立
-#     text: 一句话说明（可选）
-#     image: /uploads/xxx.webp（可选）
-items: []
+# ⚠ 以下条目均为【示例内容】（年份与事件为虚构占位），定稿前需替换为真实沿革。
+items:
+  - year: 2019
+    title: 朝之雾动漫社成立
+    text: 几位热爱动画的同学在晨雾未散的校园里挂出了第一张招新海报。（示例）
+    image: /uploads/sample-history-founding.svg
+  - year: 2021
+    title: 首次主办校园漫展专场
+    text: 与兄弟社团合作，把放映、舞台与摊位第一次搬进了体育馆。（示例）
+  - year: 2023
+    title: 映像研究部成立
+    text: 剪辑与拍摄爱好者聚成新部门，社团活动从此有了自己的影像记录。（示例）
+    image: /uploads/sample-history-eizo.svg
+  - year: 2026
+    title: 社团规范化整理启动
+    text: 借助飞书开始整理社团规范与资料档案，官方网站同步立项。（示例）

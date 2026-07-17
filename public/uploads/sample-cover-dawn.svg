@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 600" role="img" aria-label="示例占位图：晨雾中的日出山景">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7d4d7"/>
+      <stop offset="0.55" stop-color="#fbe9ea"/>
+      <stop offset="1" stop-color="#ecf0f4"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e795a0" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#e795a0" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#e795a0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mist1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1500" height="600" fill="url(#sky)"/>
+  <circle cx="1050" cy="250" r="260" fill="url(#sunGlow)"/>
+  <circle cx="1050" cy="250" r="86" fill="#e795a0"/>
+  <path d="M0 600 L0 430 L230 300 L470 420 L700 260 L950 440 L1180 330 L1500 430 L1500 600 Z" fill="#96a4b6" opacity="0.5"/>
+  <path d="M0 600 L0 500 L280 390 L560 480 L840 360 L1120 500 L1350 420 L1500 470 L1500 600 Z" fill="#718195" opacity="0.6"/>
+  <path d="M0 600 L0 545 L320 470 L640 545 L960 455 L1260 545 L1500 500 L1500 600 Z" fill="#45505f" opacity="0.75"/>
+  <ellipse cx="400" cy="500" rx="520" ry="60" fill="#ffffff" opacity="0.35"/>
+  <ellipse cx="1100" cy="545" rx="620" ry="70" fill="#ffffff" opacity="0.3"/>
+  <rect y="440" width="1500" height="160" fill="url(#mist1)"/>
+  <path d="M330 160 q14 -18 28 0 M370 172 q11 -14 22 0" stroke="#586678" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.55"/>
+</svg>

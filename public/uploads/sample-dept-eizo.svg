@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="示例占位图：映像研究部">
+  <defs>
+    <linearGradient id="ezbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dbe2ea"/>
+      <stop offset="1" stop-color="#ecf0f4"/>
+    </linearGradient>
+    <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a3b3fa"/>
+      <stop offset="1" stop-color="#2c44d8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#ezbg)"/>
+  <circle cx="660" cy="90" r="120" fill="#f7d4d7" opacity="0.5"/>
+  <rect x="200" y="150" width="300" height="200" rx="26" fill="#353e4b"/>
+  <path d="M500 210 L600 160 L600 340 L500 290 Z" fill="#353e4b"/>
+  <circle cx="310" cy="250" r="62" fill="url(#lens)"/>
+  <circle cx="310" cy="250" r="30" fill="#1b212b"/>
+  <circle cx="292" cy="232" r="10" fill="#ecf0f4" opacity="0.85"/>
+  <circle cx="430" cy="196" r="14" fill="#d97584"/>
+  <rect x="240" y="118" width="90" height="26" rx="13" fill="#718195"/>
+  <path d="M180 380 q220 40 440 0" stroke="#96a4b6" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.55"/>
+</svg>

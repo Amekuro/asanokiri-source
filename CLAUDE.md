@@ -18,10 +18,10 @@
 
 ## 技术栈
 
-- VitePress（stable，pin 死）+ 完全自定义主题（不 extend 默认主题）
+- VitePress 2.x（npm `next` 渠道，版本精确 pin）+ 完全自定义主题（不 extend 默认主题）
 - Tailwind CSS v4（`@tailwindcss/vite`）+ `@tailwindcss/typography`；样式纯自写，不引入任何 UI 组件库
 - Sveltia CMS（挂载于 `/admin/`）
-- Node LTS，pin 于 `.nvmrc` 与 `package.json#engines`
+- Node 最新 LTS（当前 24），pin 于 `.nvmrc` 与 `package.json#engines`，CI 以 `.nvmrc` 为准
 - 原型部署：GitHub Pages 项目页，Pages 源设为 GitHub Actions，官方 `actions/deploy-pages` workflow
 
 ## 目录结构
@@ -56,7 +56,7 @@ posts.md               # 文章列表页；放根目录以保持 posts/ 只含�
 
 posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（选）、`featured`（选，未来精选页的过滤钩子，当前无消费方）。
 
-`data/site.yml`：`name`、`name_ja`（装饰用日文读法，可删）、`tagline`、`description`、`departments: [{ name, blurb? }]`（各部门一句话）、`join_url`（Bitable 表单）、`qq_group`、`wechat`、`bilibili`。留空的字段不渲染。
+`data/site.yml`：`name`、`name_ja`（装饰用日文读法，可删）、`tagline`、`description`、`departments: [{ name, text?, image? }]`（各部门一段自述 + 可选配图）、`join_url`（Bitable 表单）、`qq_group`、`wechat`、`bilibili`。留空的字段不渲染。
 
 `data/history.yml`：`items: [{ year, title, text?, image? }]`（顶层包 `items` 键，适配 CMS file collection 编辑；根级列表 CMS 无法编辑）。
 
@@ -73,6 +73,8 @@ posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（
 - `base` 仅在 `.vitepress/config.ts` 一处定义（原型为 `/<repo>/`）。内容文件（frontmatter、YAML）中的资源路径一律写站根绝对路径（如 `/uploads/x.webp`）；VitePress 只自动处理 markdown 正文内的引用，主题代码消费 frontmatter / YAML 路径时必须经 `withBase()`。迁移到根路径部署时只改 base 一行，内容零改动。
 - Tailwind 入口 CSS 用 `source()` 显式指定扫描根：v4 自动探测会跳过 `.vitepress` 目录（tailwindlabs/tailwindcss#16050）。
 - markdown 正文排版一律交给 `prose`，不为文章内容手写样式。
+- 深色模式为自适应（`prefers-color-scheme`，Tailwind `dark:` 变体，无手动开关）；代码块用 shiki 双主题。对比度按 WCAG AA：浅色端次要文字最浅 `mist-600`，深色端最浅 `mist-400`，实心按钮 `dawn-700` 底白字，链接浅/深端分别 `glow-600` / `glow-300`。
+- `public/uploads/sample-*.svg` 为示例占位插画，`data/` 与 `posts/` 中标注（示例）的内容同理，正式内容就位后替换删除。
 - 图片一律经 Sveltia 上传（自动 WebP）；禁止外链公众号图床 `mmbiz.qpic.cn`（防盗链）。视频不入仓库，一律 B 站 iframe。
 - Sveltia `config.yml`：`backend: github`；posts 为 folder collection，site / history 为 file collection；字段定义与本文件内容模型保持同步。
 

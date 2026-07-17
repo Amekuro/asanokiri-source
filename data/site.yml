@@ -1,17 +1,28 @@
 # 全局站点信息。可在 /admin 用 Sveltia 编辑，或直接改本文件。
 # 留空（""）的字段不会在页面上渲染，填上即出现。
+# ⚠ 下方 tagline / description / departments.text 及各链接均为【示例文案】，定稿前需替换。
 name: 朝之雾动漫社
 name_ja: あさのきり # 装饰用日文读法，不需要时删除本行即可
-tagline: "" # 待补：一句话标语
-description: "" # 待补：社团简介
-departments: # blurb 为各部门一句话介绍，由各部门确定后补充
+tagline: 晨雾未散，同好已聚。 # 示例
+# 中文长文本写成单行，勿用 >- 折行（折行处会被注入英文空格）
+description: 朝之雾动漫社是由动画、漫画、游戏爱好者组成的学生社团。从周常放映、补番安利到漫展出击、舞台演出与影像创作，我们希望为每一位同好提供一片自由生长的土壤——在朝雾散去之前，和我们一起热爱这些故事。 # 示例
+departments: # text 为各部门自述（一段文字），image 可选；均由各部门确定后替换
   - name: 主席团
+    text: 统筹社团的日常运营与年度活动，对接校方与兄弟社团，让每一场活动都能顺利发生。（示例文案，待主席团确认）
   - name: COS部
+    text: 从服装道具制作、妆造研究到漫展出击与舞台剧演出，把喜欢的角色带到现实世界。（示例文案，待部门确认）
+    image: /uploads/sample-dept-cos.svg
   - name: 动漫部落
+    text: 周常放映与圆桌漫谈的主阵地，负责片单策划、新番资讯与同好交流。（示例文案，待部门确认）
   - name: 宣传部
+    text: 海报、推文与视觉物料的产地，负责社团对内对外的每一次亮相。（示例文案，待部门确认）
+    image: /uploads/sample-dept-pub.svg
   - name: 宅务部
+    text: 物资、场地与后勤的守护者，活动现场一切井井有条的幕后功臣。（示例文案，待部门确认）
   - name: 映像研究部
-join_url: "" # 待补：飞书 Bitable 报名表单链接
-qq_group: "" # 待补：QQ 群号
-wechat: "" # 待补：微信公众号名称
-bilibili: "" # 待补：B 站官方账号空间链接
+    text: MAD / AMV 剪辑、宅舞与短片拍摄、活动影像记录的据点，本网站也由映研维护。（示例文案，待部门确认）
+    image: /uploads/sample-dept-eizo.svg
+join_url: https://example.feishu.cn/base/sample-form # 示例：替换为飞书 Bitable 报名表单链接
+qq_group: "123456789" # 示例：替换为真实 QQ 群号
+wechat: 朝之雾动漫社 # 示例：替换为公众号实际名称
+bilibili: https://space.bilibili.com/1 # 示例：替换为 B 站官方账号空间链接

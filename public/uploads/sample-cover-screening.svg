@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 600" role="img" aria-label="示例占位图：放映会现场">
+  <defs>
+    <linearGradient id="room" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b212b"/>
+      <stop offset="1" stop-color="#272e39"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ecf0f4" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ecf0f4" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1b8bd"/>
+      <stop offset="1" stop-color="#a3b3fa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1500" height="600" fill="url(#room)"/>
+  <path d="M750 40 L330 430 L1170 430 Z" fill="url(#beam)"/>
+  <rect x="330" y="150" width="840" height="280" rx="10" fill="url(#screen)" opacity="0.92"/>
+  <rect x="330" y="150" width="840" height="280" rx="10" fill="none" stroke="#96a4b6" stroke-opacity="0.4" stroke-width="3"/>
+  <circle cx="750" cy="290" r="46" fill="#1b212b" opacity="0.28"/>
+  <path d="M737 268 L737 312 L775 290 Z" fill="#fdf5f5" opacity="0.9"/>
+  <path d="M0 600 L0 520 Q120 470 240 515 Q330 545 420 505 Q540 460 660 512 Q780 550 900 508 Q1020 465 1140 515 Q1260 552 1380 512 L1500 530 L1500 600 Z" fill="#12161d"/>
+  <circle cx="180" cy="505" r="34" fill="#12161d"/>
+  <circle cx="480" cy="512" r="36" fill="#12161d"/>
+  <circle cx="800" cy="518" r="34" fill="#12161d"/>
+  <circle cx="1120" cy="510" r="36" fill="#12161d"/>
+  <circle cx="1320" cy="520" r="32" fill="#12161d"/>
+</svg>

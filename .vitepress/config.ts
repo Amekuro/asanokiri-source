@@ -12,7 +12,8 @@ export default defineConfig({
   cleanUrls: true,
   srcExclude: ['CLAUDE.md', 'README.md'],
   markdown: {
-    theme: 'github-light',
+    // 双主题 + main.css 中的媒体查询实现代码块自适应深色
+    theme: { light: 'github-light', dark: 'github-dark' },
   },
   head: [['link', { rel: 'icon', type: 'image/svg+xml', href: base + 'favicon.svg' }]],
   vite: {
