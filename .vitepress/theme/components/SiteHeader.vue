@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress'
 import { data as site } from '../site.data'
+import ThemeToggle from './ThemeToggle.vue'
 </script>
 
 <template>
@@ -20,13 +21,14 @@ import { data as site } from '../site.data'
           {{ site.name_ja }}
         </span>
       </a>
-      <nav class="flex items-center gap-5 text-sm" aria-label="站点导航">
+      <nav class="flex items-center gap-3 text-sm sm:gap-4" aria-label="站点导航">
         <a
           :href="withBase('/posts')"
           class="rounded-md font-medium text-mist-600 transition hover:text-glow-600 dark:text-mist-300 dark:hover:text-glow-300"
         >
           活动记录
         </a>
+        <ThemeToggle />
         <a
           v-if="site.join_url"
           :href="site.join_url"

@@ -5,7 +5,8 @@
  *   glow —— 描边钴蓝（头像轮廓光），链接与焦点色
  * 签名元素：dawn→glow 渐变细线，呼应头像的红蓝色散描边。
  *
- * 深色模式为自适应（prefers-color-scheme，Tailwind dark: 变体，无手动开关）。
+ * 深色模式：默认跟随系统，页头按钮手动切换。状态管理走 VitePress 内建
+ * appearance（isDark / html.dark / 防闪烁脚本均由内核提供），见 ThemeToggle.vue。
  * 对比度按 WCAG AA 校验过的搭配（正文/小字 ≥4.5:1）：
  *   浅色端次要文字最浅用 mist-600；深色端（mist-950/900 底）最浅用 mist-400；
  *   实心按钮用 dawn-700 底 + 白字；链接浅色端 glow-600、深色端 glow-300。
@@ -14,6 +15,9 @@
  */
 @import "tailwindcss" source("../../..");
 @plugin "@tailwindcss/typography";
+
+/* dark: 变体改为 class 策略（默认为 prefers-color-scheme），html.dark 由 VitePress appearance 控制 */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-mist-50: #f6f8fa;
@@ -47,9 +51,12 @@
   --font-sans: system-ui, "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
 }
 
-/* 表单控件、滚动条等 UA 元素跟随系统明暗 */
+/* 表单控件、滚动条等 UA 元素跟随当前主题 */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+}
+:root.dark {
+  color-scheme: dark;
 }
 
 /* 键盘焦点统一可见（WCAG 2.4.7） */
@@ -57,10 +64,8 @@
   outline: 2px solid var(--color-glow-600);
   outline-offset: 2px;
 }
-@media (prefers-color-scheme: dark) {
-  :focus-visible {
-    outline-color: var(--color-glow-300);
-  }
+.dark :focus-visible {
+  outline-color: var(--color-glow-300);
 }
 
 /* 文章正文排版一律交给 prose，此处只对齐品牌色（含深色 invert 端） */
@@ -82,7 +87,7 @@
 }
 
 /* 深色端直接覆写同名变量（不用 prose-invert：此处未分层样式会压过它的变量重指派） */
-@media (prefers-color-scheme: dark) {
+.dark {
   .prose {
     --tw-prose-body: var(--color-mist-300);
     --tw-prose-headings: var(--color-mist-100);
@@ -113,22 +118,18 @@
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
-@media (prefers-color-scheme: dark) {
-  .shiki,
-  .shiki span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-  }
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
 }
 
 /* 代码块描边（github-light 白底需要与页面区分）；隐藏语言角标与未样式化的复制按钮 */
 .prose pre {
   border: 1px solid var(--color-mist-200);
 }
-@media (prefers-color-scheme: dark) {
-  .prose pre {
-    border-color: var(--color-mist-800);
-  }
+.dark .prose pre {
+  border-color: var(--color-mist-800);
 }
 .prose [class*="language-"] > button.copy,
 .prose [class*="language-"] > span.lang {
