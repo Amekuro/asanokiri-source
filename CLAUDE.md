@@ -73,7 +73,7 @@ posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（
 - `base` 仅在 `.vitepress/config.ts` 一处定义（原型为 `/<repo>/`）。内容文件（frontmatter、YAML）中的资源路径一律写站根绝对路径（如 `/uploads/x.webp`）；VitePress 只自动处理 markdown 正文内的引用，主题代码消费 frontmatter / YAML 路径时必须经 `withBase()`。迁移到根路径部署时只改 base 一行，内容零改动。
 - Tailwind 入口 CSS 用 `source()` 显式指定扫描根：v4 自动探测会跳过 `.vitepress` 目录（tailwindlabs/tailwindcss#16050）。
 - markdown 正文排版一律交给 `prose`，不为文章内容手写样式。
-- 深色模式为自适应（`prefers-color-scheme`，Tailwind `dark:` 变体，无手动开关）；代码块用 shiki 双主题。对比度按 WCAG AA：浅色端次要文字最浅 `mist-600`，深色端最浅 `mist-400`，实心按钮 `dawn-700` 底白字，链接浅/深端分别 `glow-600` / `glow-300`。
+- 深色模式：默认跟随系统，页头 ThemeToggle 手动切换。状态走 VitePress 内建 appearance（写 `useData().isDark`，内核管 `html.dark`、localStorage 记忆与防闪烁脚本，选择与系统一致时回退为跟随系统）；Tailwind `dark:` 为 class 策略（`@custom-variant` 定义）；代码块用 shiki 双主题。对比度按 WCAG AA：浅色端次要文字最浅 `mist-600`，深色端最浅 `mist-400`，实心按钮 `dawn-700` 底白字，链接浅/深端分别 `glow-600` / `glow-300`。
 - `public/uploads/sample-*.svg` 为示例占位插画，`data/` 与 `posts/` 中标注（示例）的内容同理，正式内容就位后替换删除。
 - 图片一律经 Sveltia 上传（自动 WebP）；禁止外链公众号图床 `mmbiz.qpic.cn`（防盗链）。视频不入仓库，一律 B 站 iframe。
 - Sveltia `config.yml`：`backend: github`；posts 为 folder collection，site / history 为 file collection；字段定义与本文件内容模型保持同步。
