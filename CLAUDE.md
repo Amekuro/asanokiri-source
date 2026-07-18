@@ -2,6 +2,8 @@
 
 面向本仓库中的 Claude 会话。架构级改动（技术栈、内容模型、部署）须同步更新本文件。
 
+历史决策与踩坑（每版写法、遇到的问题、修改原因）见 `docs/design-notes.md`：本文件记录**当前约定**，那份记录**为什么这样、曾错在哪**。涉及深色/主题切换、Tailwind/VitePress 配置、YAML/CMS 结构等易错点前，先读那份。
+
 ## 现状
 
 个人仓库中的原型，由 Claude Code 会话直接开发维护；经 GitHub Actions 部署到个人 GitHub Pages 的项目路径（`https://<user>.github.io/<repo>/`），用于确认最终效果。定稿后迁往社团 org，正式部署平台届时三选一（GitHub Pages / Cloudflare Pages / EdgeOne Pages）。
