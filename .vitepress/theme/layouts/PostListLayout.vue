@@ -16,13 +16,7 @@ const { frontmatter } = useData()
       class="mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-dawn-400 to-glow-500"
     ></div>
     <div v-if="posts.length" class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      <PostCard
-        v-for="(post, i) in posts"
-        :key="post.url"
-        v-reveal
-        :style="{ '--reveal-delay': `${(i % 3) * 90}ms` }"
-        :post="post"
-      />
+      <PostCard v-for="post in posts" :key="post.url" :post="post" />
     </div>
     <p v-else class="mt-10 text-mist-600 dark:text-mist-300">暂无活动记录。</p>
   </div>
