@@ -22,25 +22,34 @@ onMounted(() => {
   mode.value = saved === 'light' || saved === 'dark' ? saved : 'auto'
 })
 
-function choose(next: Mode) {
-  if (next === mode.value) return
-  const willDark =
-    next === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : next === 'dark'
-  // 明暗实际变化时做全站颜色渐变（vuejs.org 同思路），reduced-motion 下直切
-  if (
-    willDark !== isDark.value &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  ) {
-    const root = document.documentElement
-    root.classList.add('theme-fade')
-    window.setTimeout(() => root.classList.remove('theme-fade'), 500)
-  }
+function switchTheme(next: Mode, willDark: boolean) {
   isDark.value = willDark
   mode.value = next
   void nextTick().then(() => {
     try {
       localStorage.setItem(KEY, next)
     } catch {}
+  })
+}
+
+function choose(next: Mode) {
+  if (next === mode.value) return
+  const willDark =
+    next === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : next === 'dark'
+  // 明暗实际变化时做整页交叉渐变（View Transitions 默认 crossfade，
+  // 结束帧即新渲染本身，无过渡截断问题）；无 API 或 reduced-motion 直切。
+  // 时长与缓动在 main.css 的 ::view-transition-* 规则中定义。
+  if (
+    willDark === isDark.value ||
+    !document.startViewTransition ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    switchTheme(next, willDark)
+    return
+  }
+  document.startViewTransition(async () => {
+    switchTheme(next, willDark)
+    await nextTick()
   })
 }
 </script>

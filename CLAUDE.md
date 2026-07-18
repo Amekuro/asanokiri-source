@@ -73,7 +73,7 @@ posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（
 - `base` 仅在 `.vitepress/config.ts` 一处定义（原型为 `/<repo>/`）。内容文件（frontmatter、YAML）中的资源路径一律写站根绝对路径（如 `/uploads/x.webp`）；VitePress 只自动处理 markdown 正文内的引用，主题代码消费 frontmatter / YAML 路径时必须经 `withBase()`。迁移到根路径部署时只改 base 一行，内容零改动。
 - Tailwind 入口 CSS 用 `source()` 显式指定扫描根：v4 自动探测会跳过 `.vitepress` 目录（tailwindlabs/tailwindcss#16050）。
 - markdown 正文排版一律交给 `prose`，不为文章内容手写样式。
-- 深色模式：页头 ThemeToggle 三段式开关（浅色 – 自动 – 深色，太阳/显示器/月亮图标 + 滑块），默认跟随系统。底层复用 VitePress 内建 appearance（`useData().isDark` + `vitepress-theme-appearance` 存储键 + 内核防闪烁脚本），显式选择在内核 watcher flush 后（nextTick）覆写存储键（内核会把与系统一致的选择坍缩为 auto）；Tailwind `dark:` 为 class 策略（`@custom-variant` 定义）；代码块用 shiki 双主题；`html` 显式设背景色防切换露白。切换动画为全站颜色渐变 0.45s（vuejs.org 同思路，临时 `.theme-fade` class），不用 View Transitions。
+- 深色模式：页头 ThemeToggle 三段式开关（浅色 – 自动 – 深色，太阳/显示器/月亮图标 + 滑块），默认跟随系统。底层复用 VitePress 内建 appearance（`useData().isDark` + `vitepress-theme-appearance` 存储键 + 内核防闪烁脚本），显式选择在内核 watcher flush 后（nextTick）覆写存储键（内核会把与系统一致的选择坍缩为 auto）；Tailwind `dark:` 为 class 策略（`@custom-variant` 定义）；代码块用 shiki 双主题；`html` 显式设背景色防切换露白。切换动画为整页交叉渐变 0.45s：View Transitions 默认 crossfade（不做圆形扩散等自定义几何动画），无 API 或 `prefers-reduced-motion` 时直切。不用「全站颜色 transition」方案：utility-class 着色下摘除时机必然截断部分过渡，产生结束帧色差。
 - 动效克制，统一经 motion-safe 降级（`prefers-reduced-motion: reduce` 下全部禁用）：仅 hero 一次性 fade-up 入场、卡片悬浮微动、开关滑块位移。不做滚动入场动画。对比度按 WCAG AA：浅色端次要文字最浅 `mist-600`，深色端最浅 `mist-400`，实心按钮 `dawn-700` 底白字，链接浅/深端分别 `glow-600` / `glow-300`。
 - `public/uploads/sample-*.svg` 为示例占位插画，`data/` 与 `posts/` 中标注（示例）的内容同理，正式内容就位后替换删除。
 - 图片一律经 Sveltia 上传（自动 WebP）；禁止外链公众号图床 `mmbiz.qpic.cn`（防盗链）。视频不入仓库，一律 B 站 iframe。
