@@ -13,7 +13,7 @@
 1. 网站要活很多年：三年后无人懂代码，仍能正常更新内容。
 2. 内容与代码分离：内容 = markdown + YAML，改内容不碰 `.vitepress/`。
 3. 依赖冻结：版本精确 pin，`package-lock.json` 提交，不接入自动升级。
-4. 纯静态无后端：报名外链飞书 Bitable 表单，视频走 B 站 embed。
+4. 纯静态无后端：视频走 B 站 embed。招新只面向在校生、线下发布表单，站内不设报名入口。
 5. 不为不存在的内容建页面。
 
 ## 技术栈
@@ -56,7 +56,7 @@ posts.md               # 文章列表页；放根目录以保持 posts/ 只含�
 
 posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（选）、`featured`（选，未来精选页的过滤钩子，当前无消费方）。
 
-`data/site.yml`：`name`、`name_ja`（装饰用日文读法，可删）、`tagline`、`description`、`departments: [{ name, text?, image? }]`（各部门一段自述 + 可选配图）、`join_url`（Bitable 表单）、`qq_group`、`wechat`、`bilibili`。留空的字段不渲染。
+`data/site.yml`：`name`、`name_ja`（装饰用日文读法，可删）、`tagline`、`description`、`departments: [{ name, text?, image? }]`（各部门一段自述 + 可选配图）、`contacts: [{ name, text?, link?, qr_link?, qr_image?, avatar? }]`（联系方式：`qr_image` 上传图优先展示，否则构建期由 `qr_link` 经 uqr 生成 ECC-H 矢量二维码，`avatar` 叠加中心头像）。留空的字段不渲染。
 
 `data/history.yml`：`items: [{ year, title, text?, image? }]`（顶层包 `items` 键，适配 CMS file collection 编辑；根级列表 CMS 无法编辑）。
 
@@ -64,7 +64,7 @@ posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（
 
 ## 页面（仅三个模板）
 
-1. 首页：区块化、数据驱动。hero + 简介必有（首屏含「加入我们」→ `join_url`）；timeline 仅当 `history.yml` 非空时渲染；最新活动列表。页脚：QQ 群 / 公众号 / B 站。新增区块遵循同一模式：数据文件出现 → 区块出现。
+1. 首页：区块化、数据驱动。hero + 简介必有；timeline 仅当 `history.yml` 非空时渲染；最新活动列表；「找到我们」二维码卡片区（`contacts` 非空时）。页脚为 `contacts` 文本列表。新增区块遵循同一模式：数据文件出现 → 区块出现。
 2. 文章列表：按 `date` 倒序。
 3. 文章详情：正文容器统一 `prose`。
 
@@ -73,7 +73,8 @@ posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（
 - `base` 仅在 `.vitepress/config.ts` 一处定义（原型为 `/<repo>/`）。内容文件（frontmatter、YAML）中的资源路径一律写站根绝对路径（如 `/uploads/x.webp`）；VitePress 只自动处理 markdown 正文内的引用，主题代码消费 frontmatter / YAML 路径时必须经 `withBase()`。迁移到根路径部署时只改 base 一行，内容零改动。
 - Tailwind 入口 CSS 用 `source()` 显式指定扫描根：v4 自动探测会跳过 `.vitepress` 目录（tailwindlabs/tailwindcss#16050）。
 - markdown 正文排版一律交给 `prose`，不为文章内容手写样式。
-- 深色模式：默认跟随系统，页头 ThemeToggle 手动切换。状态走 VitePress 内建 appearance（写 `useData().isDark`，内核管 `html.dark`、localStorage 记忆与防闪烁脚本，选择与系统一致时回退为跟随系统）；Tailwind `dark:` 为 class 策略（`@custom-variant` 定义）；代码块用 shiki 双主题。对比度按 WCAG AA：浅色端次要文字最浅 `mist-600`，深色端最浅 `mist-400`，实心按钮 `dawn-700` 底白字，链接浅/深端分别 `glow-600` / `glow-300`。
+- 深色模式：页头 ThemeToggle 三态菜单（浅色 / 深色 / 跟随系统），默认跟随系统。底层复用 VitePress 内建 appearance（`useData().isDark` + `vitepress-theme-appearance` 存储键 + 内核防闪烁脚本），显式选择在内核切换后覆写存储键（内核会把与系统一致的选择坍缩为 auto）；Tailwind `dark:` 为 class 策略（`@custom-variant` 定义）；代码块用 shiki 双主题。切换动画为 View Transitions 圆形扩散（vuejs.org 同款），无 API 支持时直切。
+- 动效统一经 motion-safe 降级（`prefers-reduced-motion: reduce` 下全部禁用）：滚动入场用 `v-reveal` 指令（theme/index.ts，IntersectionObserver，首屏元素跳过），hero 为一次性 fade-up，卡片悬浮微动。对比度按 WCAG AA：浅色端次要文字最浅 `mist-600`，深色端最浅 `mist-400`，实心按钮 `dawn-700` 底白字，链接浅/深端分别 `glow-600` / `glow-300`。
 - `public/uploads/sample-*.svg` 为示例占位插画，`data/` 与 `posts/` 中标注（示例）的内容同理，正式内容就位后替换删除。
 - 图片一律经 Sveltia 上传（自动 WebP）；禁止外链公众号图床 `mmbiz.qpic.cn`（防盗链）。视频不入仓库，一律 B 站 iframe。
 - Sveltia `config.yml`：`backend: github`；posts 为 folder collection，site / history 为 file collection；字段定义与本文件内容模型保持同步。

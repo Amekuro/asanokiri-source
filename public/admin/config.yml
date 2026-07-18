@@ -43,10 +43,17 @@ collections:
               - { name: name, label: 名称, widget: string }
               - { name: text, label: 部门介绍（一段文字）, widget: text, required: false }
               - { name: image, label: 配图, widget: image, required: false }
-          - { name: join_url, label: 报名表单链接, widget: string, required: false }
-          - { name: qq_group, label: QQ 群号, widget: string, required: false }
-          - { name: wechat, label: 公众号名称, widget: string, required: false }
-          - { name: bilibili, label: B 站空间链接, widget: string, required: false }
+          - name: contacts
+            label: 联系方式（首页「找到我们」+ 页脚）
+            widget: list
+            required: false
+            fields:
+              - { name: name, label: 名称, widget: string }
+              - { name: text, label: 展示文本, widget: string, required: false }
+              - { name: link, label: 跳转链接, widget: string, required: false }
+              - { name: qr_link, label: 二维码内容链接（构建时自动生成二维码）, widget: string, required: false }
+              - { name: qr_image, label: 二维码图片（设置后优先于自动生成）, widget: image, required: false }
+              - { name: avatar, label: 二维码中心头像, widget: image, required: false }
       - name: history
         label: 社团沿革
         file: data/history.yml

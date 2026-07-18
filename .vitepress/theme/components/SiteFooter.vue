@@ -22,18 +22,19 @@ const year = new Date().getFullYear()
             {{ site.tagline }}
           </p>
         </div>
-        <ul class="space-y-2 text-sm text-mist-600 dark:text-mist-300">
-          <li v-if="site.qq_group">QQ 群：{{ site.qq_group }}</li>
-          <li v-if="site.wechat">微信公众号：{{ site.wechat }}</li>
-          <li v-if="site.bilibili">
+        <ul v-if="site.contacts?.length" class="space-y-2 text-sm text-mist-600 dark:text-mist-300">
+          <li v-for="contact in site.contacts" :key="contact.name">
             <a
-              :href="site.bilibili"
+              v-if="contact.link"
+              :href="contact.link"
               target="_blank"
               rel="noopener"
               class="rounded-md text-glow-600 transition hover:text-glow-700 dark:text-glow-300 dark:hover:text-glow-200"
             >
-              bilibili 官方账号
+              {{ contact.name }}
             </a>
+            <template v-else>{{ contact.name }}</template>
+            <span v-if="contact.text">：{{ contact.text }}</span>
           </li>
         </ul>
       </div>
