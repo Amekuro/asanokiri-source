@@ -121,8 +121,10 @@
       transform: none;
     }
   }
+  /* fill 用 backwards：动画结束后释放回自然渲染，
+     避免 both 长期保持合成层导致文字抗锯齿与静态渲染有肉眼可辨的差异 */
   .anim-fade-up {
-    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     animation-delay: var(--anim-delay, 0s);
   }
   @keyframes grow-x {
@@ -132,26 +134,16 @@
   }
   .anim-grow-x {
     transform-origin: left;
-    animation: grow-x 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+    animation: grow-x 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s backwards;
   }
 
-  /* 主题切换整体渐变：切换瞬间给全站颜色属性加过渡（vuejs.org 同思路，
-     其 body 常驻 transition；此处用临时 class 以免干扰平时的 hover 过渡），
-     ThemeToggle.vue 负责加/移除 .theme-fade */
-  .theme-fade,
-  .theme-fade *,
-  .theme-fade *::before,
-  .theme-fade *::after {
-    transition:
-      background-color 0.45s ease,
-      border-color 0.45s ease,
-      color 0.45s ease,
-      fill 0.45s ease,
-      stroke 0.45s ease !important;
-  }
-  /* 开关滑块在渐变期间仍保持位移动画 */
-  .theme-fade .theme-thumb {
-    transition: transform 0.2s ease !important;
+  /* 主题切换整体渐变：View Transitions 默认交叉渐变（新旧整页快照 crossfade，
+     结束帧即新渲染本身，不存在过渡被截断的结束帧色差；不做圆形扩散等
+     自定义几何动画）。触发见 ThemeToggle.vue；无 API 或 reduced-motion 直切 */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: ease;
   }
 }
 
