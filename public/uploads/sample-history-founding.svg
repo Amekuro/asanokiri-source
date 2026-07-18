@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="示例占位图：社团成立">
+  <defs>
+    <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7d4d7"/>
+      <stop offset="1" stop-color="#ecf0f4"/>
+    </linearGradient>
+    <linearGradient id="fflag" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e795a0"/>
+      <stop offset="1" stop-color="#3d5af1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#fsky)"/>
+  <circle cx="590" cy="150" r="150" fill="#e795a0" opacity="0.35"/>
+  <circle cx="590" cy="150" r="62" fill="#e795a0"/>
+  <path d="M0 500 L0 380 L220 300 L430 390 L640 310 L800 380 L800 500 Z" fill="#718195" opacity="0.5"/>
+  <path d="M0 500 L0 440 L260 390 L520 445 L780 400 L800 405 L800 500 Z" fill="#45505f" opacity="0.65"/>
+  <rect x="230" y="130" width="12" height="270" rx="6" fill="#353e4b"/>
+  <path d="M242 138 L400 168 L242 198 Z" fill="url(#fflag)"/>
+  <ellipse cx="400" cy="440" rx="360" ry="50" fill="#ffffff" opacity="0.4"/>
+</svg>

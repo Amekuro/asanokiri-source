@@ -41,7 +41,8 @@ collections:
             required: false
             fields:
               - { name: name, label: 名称, widget: string }
-              - { name: blurb, label: 一句话介绍, widget: string, required: false }
+              - { name: text, label: 部门介绍（一段文字）, widget: text, required: false }
+              - { name: image, label: 配图, widget: image, required: false }
           - { name: join_url, label: 报名表单链接, widget: string, required: false }
           - { name: qq_group, label: QQ 群号, widget: string, required: false }
           - { name: wechat, label: 公众号名称, widget: string, required: false }

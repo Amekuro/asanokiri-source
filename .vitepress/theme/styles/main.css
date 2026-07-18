@@ -4,6 +4,12 @@
  *   dawn —— 拂晓粉（发色），主强调色，用于 CTA 与点缀
  *   glow —— 描边钴蓝（头像轮廓光），链接与焦点色
  * 签名元素：dawn→glow 渐变细线，呼应头像的红蓝色散描边。
+ *
+ * 深色模式为自适应（prefers-color-scheme，Tailwind dark: 变体，无手动开关）。
+ * 对比度按 WCAG AA 校验过的搭配（正文/小字 ≥4.5:1）：
+ *   浅色端次要文字最浅用 mist-600；深色端（mist-950/900 底）最浅用 mist-400；
+ *   实心按钮用 dawn-700 底 + 白字；链接浅色端 glow-600、深色端 glow-300。
+ *
  * source() 显式指定扫描根：v4 自动探测会跳过 .vitepress 目录。
  */
 @import "tailwindcss" source("../../..");
@@ -20,6 +26,7 @@
   --color-mist-700: #45505f;
   --color-mist-800: #353e4b;
   --color-mist-900: #272e39;
+  --color-mist-950: #1b212b;
 
   --color-dawn-50: #fdf5f5;
   --color-dawn-100: #fbe9ea;
@@ -29,7 +36,10 @@
   --color-dawn-500: #d97584;
   --color-dawn-600: #c05a6d;
   --color-dawn-700: #9e4457;
+  --color-dawn-800: #83394a;
 
+  --color-glow-200: #c5cdfc;
+  --color-glow-300: #a3b3fa;
   --color-glow-500: #3d5af1;
   --color-glow-600: #2c44d8;
   --color-glow-700: #2336ac;
@@ -37,26 +47,90 @@
   --font-sans: system-ui, "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
 }
 
-/* 文章正文排版一律交给 prose，此处只对齐品牌色 */
+/* 表单控件、滚动条等 UA 元素跟随系统明暗 */
+:root {
+  color-scheme: light dark;
+}
+
+/* 键盘焦点统一可见（WCAG 2.4.7） */
+:focus-visible {
+  outline: 2px solid var(--color-glow-600);
+  outline-offset: 2px;
+}
+@media (prefers-color-scheme: dark) {
+  :focus-visible {
+    outline-color: var(--color-glow-300);
+  }
+}
+
+/* 文章正文排版一律交给 prose，此处只对齐品牌色（含深色 invert 端） */
 .prose {
   --tw-prose-body: var(--color-mist-700);
   --tw-prose-headings: var(--color-mist-900);
   --tw-prose-lead: var(--color-mist-600);
   --tw-prose-links: var(--color-glow-600);
   --tw-prose-bold: var(--color-mist-900);
-  --tw-prose-counters: var(--color-dawn-500);
+  --tw-prose-counters: var(--color-dawn-600);
   --tw-prose-bullets: var(--color-dawn-400);
   --tw-prose-hr: var(--color-mist-200);
   --tw-prose-quotes: var(--color-mist-600);
   --tw-prose-quote-borders: var(--color-dawn-300);
-  --tw-prose-captions: var(--color-mist-500);
+  --tw-prose-captions: var(--color-mist-600);
   --tw-prose-code: var(--color-mist-800);
   --tw-prose-th-borders: var(--color-mist-300);
   --tw-prose-td-borders: var(--color-mist-200);
+}
+
+/* 深色端直接覆写同名变量（不用 prose-invert：此处未分层样式会压过它的变量重指派） */
+@media (prefers-color-scheme: dark) {
+  .prose {
+    --tw-prose-body: var(--color-mist-300);
+    --tw-prose-headings: var(--color-mist-100);
+    --tw-prose-lead: var(--color-mist-400);
+    --tw-prose-links: var(--color-glow-300);
+    --tw-prose-bold: var(--color-mist-100);
+    --tw-prose-counters: var(--color-dawn-300);
+    --tw-prose-bullets: var(--color-dawn-400);
+    --tw-prose-hr: var(--color-mist-800);
+    --tw-prose-quotes: var(--color-mist-300);
+    --tw-prose-quote-borders: var(--color-dawn-700);
+    --tw-prose-captions: var(--color-mist-400);
+    --tw-prose-code: var(--color-mist-200);
+    --tw-prose-th-borders: var(--color-mist-700);
+    --tw-prose-td-borders: var(--color-mist-800);
+  }
 }
 
 /* 去掉 typography 默认给行内代码加的反引号伪元素 */
 .prose code::before,
 .prose code::after {
   content: none;
+}
+
+/* shiki 双主题（VitePress 只输出 --shiki-light / --shiki-dark 变量，需自行应用） */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+@media (prefers-color-scheme: dark) {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+
+/* 代码块描边（github-light 白底需要与页面区分）；隐藏语言角标与未样式化的复制按钮 */
+.prose pre {
+  border: 1px solid var(--color-mist-200);
+}
+@media (prefers-color-scheme: dark) {
+  .prose pre {
+    border-color: var(--color-mist-800);
+  }
+}
+.prose [class*="language-"] > button.copy,
+.prose [class*="language-"] > span.lang {
+  display: none;
 }
