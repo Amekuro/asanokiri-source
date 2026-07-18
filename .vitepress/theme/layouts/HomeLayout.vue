@@ -77,7 +77,6 @@ const latest = posts.slice(0, 3)
     <!-- 简介 + 部门 -->
     <section
       v-if="site.description || site.departments?.length"
-      v-reveal
       class="mx-auto max-w-5xl px-5 py-16"
     >
       <div class="flex items-center gap-3">
@@ -95,10 +94,8 @@ const latest = posts.slice(0, 3)
       </p>
       <ul v-if="site.departments?.length" class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <li
-          v-for="(dept, i) in site.departments"
+          v-for="dept in site.departments"
           :key="dept.name"
-          v-reveal
-          :style="{ '--reveal-delay': `${(i % 3) * 90}ms` }"
           class="overflow-hidden rounded-2xl border border-mist-200 bg-white transition hover:shadow-md dark:border-mist-800 dark:bg-mist-900"
         >
           <img
@@ -136,7 +133,7 @@ const latest = posts.slice(0, 3)
     </section>
 
     <!-- 沿革：history.yml 的 items 非空时渲染 -->
-    <section v-if="history.length" v-reveal class="mx-auto max-w-5xl px-5 py-16">
+    <section v-if="history.length" class="mx-auto max-w-5xl px-5 py-16">
       <div class="mb-10 flex items-center gap-3">
         <span
           aria-hidden="true"
@@ -148,7 +145,7 @@ const latest = posts.slice(0, 3)
     </section>
 
     <!-- 最新活动 -->
-    <section v-if="latest.length" v-reveal class="mx-auto max-w-5xl px-5 py-16">
+    <section v-if="latest.length" class="mx-auto max-w-5xl px-5 py-16">
       <div class="flex items-baseline justify-between">
         <div class="flex items-center gap-3">
           <span
@@ -165,18 +162,12 @@ const latest = posts.slice(0, 3)
         </a>
       </div>
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <PostCard
-          v-for="(post, i) in latest"
-          :key="post.url"
-          v-reveal
-          :style="{ '--reveal-delay': `${(i % 3) * 90}ms` }"
-          :post="post"
-        />
+        <PostCard v-for="post in latest" :key="post.url" :post="post" />
       </div>
     </section>
 
     <!-- 找到我们：contacts 非空时渲染，二维码为主视觉 -->
-    <section v-if="site.contacts?.length" v-reveal class="mx-auto max-w-5xl px-5 py-16">
+    <section v-if="site.contacts?.length" class="mx-auto max-w-5xl px-5 py-16">
       <div class="flex items-center gap-3">
         <span
           aria-hidden="true"
@@ -186,10 +177,8 @@ const latest = posts.slice(0, 3)
       </div>
       <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <li
-          v-for="(contact, i) in site.contacts"
+          v-for="contact in site.contacts"
           :key="contact.name"
-          v-reveal
-          :style="{ '--reveal-delay': `${(i % 3) * 90}ms` }"
           class="flex flex-col items-center rounded-2xl border border-mist-200 bg-white p-6 text-center transition hover:shadow-md dark:border-mist-800 dark:bg-mist-900"
         >
           <div class="w-36 rounded-xl ring-1 ring-mist-200 dark:ring-mist-700">

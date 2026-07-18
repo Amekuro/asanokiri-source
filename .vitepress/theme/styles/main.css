@@ -51,12 +51,14 @@
   --font-sans: system-ui, "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
 }
 
-/* 表单控件、滚动条等 UA 元素跟随当前主题 */
+/* 表单控件、滚动条等 UA 元素跟随当前主题；html 显式设背景色，杜绝切换/滚动越界时露白 */
 :root {
   color-scheme: light;
+  background-color: var(--color-mist-50);
 }
 :root.dark {
   color-scheme: dark;
+  background-color: var(--color-mist-950);
 }
 
 /* 键盘焦点统一可见（WCAG 2.4.7） */
@@ -106,22 +108,8 @@
   }
 }
 
-/* 动效（统一在此定义；reduced-motion 下全部不生效，元素保持常显） */
+/* 动效（统一在此定义；reduced-motion 下全部不生效） */
 @media (prefers-reduced-motion: no-preference) {
-  /* v-reveal 滚动入场（theme/index.ts 指令控制） */
-  .reveal-hidden {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  .reveal-hidden.reveal-shown {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: var(--reveal-delay, 0s);
-  }
-
   /* hero 一次性入场 */
   @keyframes fade-up {
     from {
@@ -147,33 +135,24 @@
     animation: grow-x 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
   }
 
-  /* ThemeToggle 菜单弹出 */
-  .menu-enter-active,
-  .menu-leave-active {
+  /* 主题切换整体渐变：切换瞬间给全站颜色属性加过渡（vuejs.org 同思路，
+     其 body 常驻 transition；此处用临时 class 以免干扰平时的 hover 过渡），
+     ThemeToggle.vue 负责加/移除 .theme-fade */
+  .theme-fade,
+  .theme-fade *,
+  .theme-fade *::before,
+  .theme-fade *::after {
     transition:
-      opacity 0.12s ease,
-      transform 0.12s ease;
+      background-color 0.45s ease,
+      border-color 0.45s ease,
+      color 0.45s ease,
+      fill 0.45s ease,
+      stroke 0.45s ease !important;
   }
-  .menu-enter-from,
-  .menu-leave-to {
-    opacity: 0;
-    transform: translateY(-4px) scale(0.97);
+  /* 开关滑块在渐变期间仍保持位移动画 */
+  .theme-fade .theme-thumb {
+    transition: transform 0.2s ease !important;
   }
-}
-
-/* 主题切换的 View Transitions 圆形扩散（ThemeToggle.vue；vuejs.org 同款层序） */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root),
-.dark::view-transition-new(root) {
-  z-index: 1;
-}
-::view-transition-new(root),
-.dark::view-transition-old(root) {
-  z-index: 9999;
 }
 
 /* 去掉 typography 默认给行内代码加的反引号伪元素 */
