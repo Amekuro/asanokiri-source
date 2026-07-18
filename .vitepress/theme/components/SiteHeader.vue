@@ -29,15 +29,6 @@ import ThemeToggle from './ThemeToggle.vue'
           活动记录
         </a>
         <ThemeToggle />
-        <a
-          v-if="site.join_url"
-          :href="site.join_url"
-          target="_blank"
-          rel="noopener"
-          class="rounded-full bg-dawn-700 px-3.5 py-1.5 font-medium text-white transition hover:bg-dawn-800"
-        >
-          加入我们
-        </a>
       </nav>
     </div>
   </header>

@@ -22,7 +22,19 @@ departments: # text 为各部门自述（一段文字），image 可选；均由
   - name: 映像研究部
     text: MAD / AMV 剪辑、宅舞与短片拍摄、活动影像记录的据点，本网站也由映研维护。（示例文案，待部门确认）
     image: /uploads/sample-dept-eizo.svg
-join_url: https://example.feishu.cn/base/sample-form # 示例：替换为飞书 Bitable 报名表单链接
-qq_group: "123456789" # 示例：替换为真实 QQ 群号
-wechat: 朝之雾动漫社 # 示例：替换为公众号实际名称
-bilibili: https://space.bilibili.com/1 # 示例：替换为 B 站官方账号空间链接
+# 联系方式：渲染于首页「找到我们」区块（二维码卡片）与页脚（文本列表）。
+# 二维码两种模式：qr_image 直接展示上传的图；否则由 qr_link 在构建期生成
+# （高容错 ECC-H，可配 avatar 叠加中心头像）。link 为可点击跳转（可选）。
+contacts:
+  - name: QQ 群
+    text: 123456789（示例）
+    qr_link: https://qm.qq.com/cgi-bin/qm/qr?k=sample-placeholder # 示例：替换为入群链接
+    avatar: /uploads/sample-avatar.svg
+  - name: 微信公众号
+    text: 朝之雾动漫社（示例）
+    qr_image: /uploads/sample-qr-wechat.svg # 示例：替换为公众号二维码截图
+  - name: bilibili
+    text: 官方账号（示例）
+    link: https://space.bilibili.com/1 # 示例：替换为空间链接
+    qr_link: https://space.bilibili.com/1
+    avatar: /uploads/sample-avatar.svg

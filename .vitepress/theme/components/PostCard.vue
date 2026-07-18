@@ -12,7 +12,7 @@ defineProps<{ post: Post }>()
 <template>
   <a
     :href="withBase(post.url)"
-    class="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-mist-200 bg-mist-100 dark:border-mist-800 dark:bg-mist-900"
+    class="group relative block aspect-[16/10] overflow-hidden rounded-2xl border border-mist-200 bg-mist-100 transition hover:shadow-lg motion-safe:hover:-translate-y-1 dark:border-mist-800 dark:bg-mist-900"
   >
     <img
       v-if="post.cover"

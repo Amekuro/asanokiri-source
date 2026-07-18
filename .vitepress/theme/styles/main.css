@@ -106,6 +106,76 @@
   }
 }
 
+/* 动效（统一在此定义；reduced-motion 下全部不生效，元素保持常显） */
+@media (prefers-reduced-motion: no-preference) {
+  /* v-reveal 滚动入场（theme/index.ts 指令控制） */
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .reveal-hidden.reveal-shown {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+
+  /* hero 一次性入场 */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .anim-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--anim-delay, 0s);
+  }
+  @keyframes grow-x {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  .anim-grow-x {
+    transform-origin: left;
+    animation: grow-x 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  }
+
+  /* ThemeToggle 菜单弹出 */
+  .menu-enter-active,
+  .menu-leave-active {
+    transition:
+      opacity 0.12s ease,
+      transform 0.12s ease;
+  }
+  .menu-enter-from,
+  .menu-leave-to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+}
+
+/* 主题切换的 View Transitions 圆形扩散（ThemeToggle.vue；vuejs.org 同款层序） */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root),
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
 /* 去掉 typography 默认给行内代码加的反引号伪元素 */
 .prose code::before,
 .prose code::after {
