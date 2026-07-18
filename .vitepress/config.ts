@@ -10,7 +10,7 @@ export default defineConfig({
   title: '朝之雾动漫社',
   description: '朝之雾动漫社官方网站：社团介绍与活动存档',
   cleanUrls: true,
-  srcExclude: ['CLAUDE.md', 'README.md'],
+  srcExclude: ['CLAUDE.md', 'README.md', 'docs/**'],
   markdown: {
     // 双主题 + main.css 中的媒体查询实现代码块自适应深色
     theme: { light: 'github-light', dark: 'github-dark' },
