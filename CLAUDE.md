@@ -37,7 +37,7 @@
     Layout.vue         # 按 frontmatter.layout 分发三种模板
     layouts/           # HomeLayout / PostListLayout / PostLayout
     styles/main.css    # Tailwind 入口 CSS；设计 token 唯一定义处（取色自 B 站官号头像）
-    components/        # Timeline.vue、PostCard.vue、SiteHeader.vue、SiteFooter.vue
+    components/        # SiteHeader/SiteFooter、ThemeToggle、PostCard、Timeline、QrCode
     posts.data.ts      # createContentLoader 聚合 posts/
     site.data.ts       # 读 data/site.yml（js-yaml）
     history.data.ts    # 读 data/history.yml（js-yaml）
@@ -52,6 +52,8 @@ public/
   favicon.svg
 index.md               # 首页（纯数据驱动，正文为空）
 posts.md               # 文章列表页；放根目录以保持 posts/ 只含文章（Sveltia folder collection 不能排除单个文件）
+docs/
+  design-notes.md      # 历史决策与踩坑记录（srcExclude 排除，不进构建）
 ```
 
 ## 内容模型
@@ -104,7 +106,7 @@ npm run dev / build / preview   # 对应 vitepress dev / build / preview
 ## 路线图
 
 - [x] 骨架：VitePress + Tailwind + Sveltia config + Actions workflow，本地跑通
-- [ ] 部署到个人 Pages 项目路径，线上跑通
-- [ ] 三个模板的设计与实现（原型核心）
+- [x] 部署到个人 Pages 项目路径，线上跑通（deploy.yml 每次合并均 success）
+- [x] 三个模板的设计与实现（原型核心）：深色模式、二维码、动效均已落地
 - [ ] Sveltia 编辑流程实测（PAT 登录）
 - [ ] 定稿：迁社团 org，选定正式部署平台，补交接文档
