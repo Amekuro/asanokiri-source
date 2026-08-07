@@ -6,7 +6,7 @@
 
 ## 现状
 
-个人仓库中的原型，由 Claude Code 会话直接开发维护；经 GitHub Actions 部署到个人 GitHub Pages 的项目路径（`https://<user>.github.io/<repo>/`），用于确认最终效果。定稿后迁往社团 org，正式部署平台届时三选一（GitHub Pages / Cloudflare Pages / EdgeOne Pages）。
+个人账号下的原型，由 Claude Code 会话直接开发维护。**双仓库**：本仓库 `amekuro/asanokiri-source` 是源码；GitHub Actions 构建后把产物（`.vitepress/dist`）推送到部署仓库 `amekuro/asanokiri`，由后者自身的 GitHub Pages（源＝分支）对外服务，线上地址 `https://amekuro.github.io/asanokiri/`。定稿后迁往社团 org，正式部署平台届时三选一（GitHub Pages / Cloudflare Pages / EdgeOne Pages）——部署仓库是一份纯静态产物，任一平台均可直接消费。
 
 站点定位：社团对外门面 + 活动存档，低频更新。内容与微信公众号同步发布，站点侧用 markdown 重新排版，不搬运公众号 HTML。未来内容维护者：映像研究部部员，不要求会 Git。
 
@@ -24,12 +24,12 @@
 - Tailwind CSS v4（`@tailwindcss/vite`）+ `@tailwindcss/typography`；样式纯自写，不引入任何 UI 组件库
 - Sveltia CMS（挂载于 `/admin/`）
 - Node 最新 LTS（当前 24），pin 于 `.nvmrc` 与 `package.json#engines`，CI 以 `.nvmrc` 为准
-- 原型部署：GitHub Pages 项目页，Pages 源设为 GitHub Actions，官方 `actions/deploy-pages` workflow
+- 部署：双仓库。源码（本仓库）→ Actions 构建 → 推 `dist` 到 `amekuro/asanokiri` → 该仓库 Pages（源＝分支 main/根）服务。跨仓库推送用 SSH 部署密钥（asanokiri 的 write deploy key，私钥存本仓库 secret `DEPLOY_KEY`）。`base` 仍为 `/asanokiri/`，URL 不变
 
 ## 目录结构
 
 ```
-.github/workflows/deploy.yml   # build + 官方 Pages 部署
+.github/workflows/deploy.yml   # build + 推 dist 到部署仓库 amekuro/asanokiri
 .vitepress/
   config.ts            # base 唯一定义处；vite.plugins 挂 tailwindcss()
   theme/
@@ -106,7 +106,8 @@ npm run dev / build / preview   # 对应 vitepress dev / build / preview
 ## 路线图
 
 - [x] 骨架：VitePress + Tailwind + Sveltia config + Actions workflow，本地跑通
-- [x] 部署到个人 Pages 项目路径，线上跑通（deploy.yml 每次合并均 success）
+- [x] 部署到个人 Pages 项目路径，线上跑通（单仓库 + deploy-pages 阶段已 success）
 - [x] 三个模板的设计与实现（原型核心）：深色模式、二维码、动效均已落地
+- [ ] 双仓库改造：源码/部署分离，跨仓库推送 dist（workflow 已就位，待配 `DEPLOY_KEY` + asanokiri 的 Pages 源后首跑验证）
 - [ ] Sveltia 编辑流程实测（PAT 登录）
 - [ ] 定稿：迁社团 org，选定正式部署平台，补交接文档
