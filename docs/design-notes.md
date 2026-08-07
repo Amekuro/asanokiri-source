@@ -177,6 +177,22 @@ document.startViewTransition(async () => { switchTheme(next, willDark); await ne
 
 ## 三、其他关键决策与踩坑
 
+### 部署架构：单仓库 → 双仓库（源码 + 构建产物）
+
+**v1 写法**：单仓库 `asanokiri`，`deploy.yml` 用官方 `actions/deploy-pages`——构建产物直接上传到 Pages CDN，**不落任何 git 仓库**，源码天然干净。
+
+**为何改双仓库**：不是为了「让构建产物离开源码仓库」——deploy-pages 已经做到了。真实动机是**产物可移植**：把 `.vitepress/dist` 存成一个独立的纯静态仓库（`asanokiri`），是一份任何平台都能直接消费的成品，契合路线图「迁 org 后在 GitHub / Cloudflare / EdgeOne Pages 三选一」。源码仓库更名为 `asanokiri-source`，新建空仓库 `asanokiri` 承接产物。
+
+**✓ 现行机制**：`asanokiri-source` 的 Actions 构建后，把 `dist` 以**单提交强制推送**到 `amekuro/asanokiri` 的 `main`，由后者自身的 GitHub Pages（源＝分支）服务。要点：
+
+- **URL 与 base 零改动**：部署仓库名仍是 `asanokiri`、仍作项目页服务，故 `https://amekuro.github.io/asanokiri/` 不变，`base` 仍 `/asanokiri/`，内容与主题代码一行不改。
+- **跨仓库推送用 SSH 部署密钥**，不用 PAT：deploy key 锁定单仓库、**无有效期**；PAT 会过期，一年后静默失效——与「网站要活很多年」冲突。私钥存源码仓库 secret `DEPLOY_KEY`，公钥作为 `asanokiri` 的 write deploy key。
+- **不用第三方 action**（如 peaceiris）：手写十余行 bash（`git init` 一个 orphan、`.nojekyll`、force push）即可，透明、无第三方依赖腐烂风险，契合「三年后能懂」。
+- **单提交强制覆盖**：部署仓库每次只留最新产物，不累积历史、不膨胀。
+- `permissions: contents: read` 足矣：不再需要 `pages: write` / `id-token: write`（那是 deploy-pages 的要求）。
+
+**踩坑提示**：GitHub 仓库改名后旧名会**重定向**，`git remote` 仍显示旧 URL 但实际指向新库；而在旧名上**新建**同名空库会**顶掉重定向**。本次即：`asanokiri` 从「重定向到 asanokiri-source」变成「独立空库（0 refs）」。改名后本地旧 clone 的 `origin` 会指向那个新空库，源码工作务必重新指向 `asanokiri-source`，别把源码推进部署仓库。
+
 ### 构建 / 工具链
 
 - **VitePress 2.x 在 `next`/alpha 渠道**：npm `latest` 仍是 1.6.x，2.x 走 `next`（当前 pin `2.0.0-alpha.18`）。选它是因为它是积极开发线、官方文档站在用；接受其 alpha 状态并精确 pin。

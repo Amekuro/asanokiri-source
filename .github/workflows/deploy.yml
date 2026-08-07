@@ -1,43 +1,57 @@
-name: Deploy to GitHub Pages
+name: Build and deploy to asanokiri (built-site repo)
+
+# 双仓库：本仓库（asanokiri-source）是源码，构建产物推送到部署仓库
+# Amekuro/asanokiri，由该仓库自身的 GitHub Pages（源=分支 main / 根目录）对外服务。
+# URL 不变：https://amekuro.github.io/asanokiri/（base 仍为 /asanokiri/）。
+#
+# 前置（一次性，在两个仓库的 Settings 里配置）：
+#   1. asanokiri 仓库：Settings → Deploy keys 添加一把【勾选 Allow write access】的
+#      SSH 公钥（下称部署密钥）。
+#   2. 本仓库：Settings → Secrets → Actions 新增 secret `DEPLOY_KEY`，值为上述密钥对的私钥。
+#   3. asanokiri 仓库：Settings → Pages，Source 选「Deploy from a branch」→ main / (root)。
+#      （首次需等本 workflow 推出 main 分支后该选项才可选。）
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+# 只需读源码 + 用 SSH 部署密钥推到外部仓库，无需任何写权限
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .vitepress/dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Push built site to Amekuro/asanokiri
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+
+          cd .vitepress/dist
+          touch .nojekyll                 # 关闭 Jekyll，原样发布（含 _ 开头资源）
+          git init -q -b main
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy from source@${GITHUB_SHA::7}"
+          # 每次以单提交强制覆盖：部署仓库只留最新产物，不累积历史、不膨胀
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes" \
+            git push -f git@github.com:Amekuro/asanokiri.git main
