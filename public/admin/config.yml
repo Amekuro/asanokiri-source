@@ -1,7 +1,7 @@
 # Sveltia CMS 配置。字段定义与 CLAUDE.md 内容模型保持同步。
 backend:
   name: github
-  repo: amekuro/asanokiri
+  repo: amekuro/asanokiri-source # 内容仓库（源码）；勿写部署仓库 asanokiri（会被构建覆盖）
   branch: main
 
 site_url: https://amekuro.github.io/asanokiri/
