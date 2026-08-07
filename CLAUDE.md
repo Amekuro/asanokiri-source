@@ -74,7 +74,7 @@ posts frontmatter 保持最小：`title`（必）、`date`（必）、`cover`（
 
 ## 实现约定
 
-- `base` 仅在 `.vitepress/config.ts` 一处定义（原型为 `/<repo>/`）。内容文件（frontmatter、YAML）中的资源路径一律写站根绝对路径（如 `/uploads/x.webp`）；VitePress 只自动处理 markdown 正文内的引用，主题代码消费 frontmatter / YAML 路径时必须经 `withBase()`。迁移到根路径部署时只改 base 一行，内容零改动。
+- `base` 仅在 `.vitepress/config.ts` 一处定义，默认 `/asanokiri/`（GitHub Pages 项目页），可由构建环境变量 `SITE_BASE` 覆盖（如 Cloudflare Pages 默认域名走根路径，构建时设 `SITE_BASE=/`）。内容文件（frontmatter、YAML）中的资源路径一律写站根绝对路径（如 `/uploads/x.webp`）；VitePress 只自动处理 markdown 正文内的引用，主题代码消费 frontmatter / YAML 路径时必须经 `withBase()`。切换部署路径时只改这一处（或设环境变量），内容零改动。
 - Tailwind 入口 CSS 用 `source()` 显式指定扫描根：v4 自动探测会跳过 `.vitepress` 目录（tailwindlabs/tailwindcss#16050）。
 - markdown 正文排版一律交给 `prose`，不为文章内容手写样式。
 - 深色模式：页头 ThemeToggle 三段式开关（浅色 – 自动 – 深色，太阳/显示器/月亮图标 + 滑块），默认跟随系统。底层复用 VitePress 内建 appearance（`useData().isDark` + `vitepress-theme-appearance` 存储键 + 内核防闪烁脚本），显式选择在内核 watcher flush 后（nextTick）覆写存储键（内核会把与系统一致的选择坍缩为 auto）；Tailwind `dark:` 为 class 策略（`@custom-variant` 定义）；代码块用 shiki 双主题；`html` 显式设背景色防切换露白。切换动画为整页交叉渐变 0.45s：View Transitions 默认 crossfade（不做圆形扩散等自定义几何动画），无 API 或 `prefers-reduced-motion` 时直切。不用「全站颜色 transition」方案：utility-class 着色下摘除时机必然截断部分过渡，产生结束帧色差。

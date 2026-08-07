@@ -1,8 +1,10 @@
 import { defineConfig } from 'vitepress'
 import tailwindcss from '@tailwindcss/vite'
 
-// base 唯一定义处：迁移到根路径部署时只改这一行
-const base = '/asanokiri/'
+// base 唯一定义处。默认 /asanokiri/（GitHub Pages 项目页）。
+// 部署到根路径的平台（如 Cloudflare Pages 默认域名）时，构建环境设
+// SITE_BASE=/ 覆盖即可，内容零改动、GitHub Pages 侧不受影响。
+const base = process.env.SITE_BASE ?? '/asanokiri/'
 
 export default defineConfig({
   base,
